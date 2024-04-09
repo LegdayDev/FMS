@@ -7,7 +7,7 @@
 - 프로그래밍 언어 : Java(Oracle OpenJDK 17.0.9)
 - 빌드도구 : Gradle
 - 데이터베이스 : Oracle Database → Colima 위에 Oracle DB 띄움
-- 의존성
+- 외부 라이브러리 및 모듈
     - Oracle Jdbc Driver 11
 - IDE : IntelliJ Ultimate Edition
 - 형상관리 도구 : Git & Github
