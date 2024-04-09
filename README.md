@@ -6,7 +6,7 @@
 - 운영체제 : Mac OS(Sonoma 14.4.1)
 - 프로그래밍 언어 : Java(Oracle OpenJDK 17.0.9)
 - 빌드도구 : Gradle
-- 데이터베이스 : Oracle Database → Colima 위에 Oracle DB 띄움
+- 데이터베이스 : Oracle Database(Docker)
 - 외부 라이브러리 및 모듈
     - Oracle Jdbc Driver 11
 - IDE : IntelliJ Ultimate Edition
