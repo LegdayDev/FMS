@@ -5,6 +5,8 @@ import util.DBConnectionUtil;
 import java.sql.*;
 import java.util.Scanner;
 
+import static util.DBConnectionUtil.*;
+
 public class JdbcRepositoryTest {
     public static void main(String[] args) {
         Connection con = null;
@@ -14,7 +16,7 @@ public class JdbcRepositoryTest {
         String sql = "";
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            con = DBConnectionUtil.getConnection();
+            con = getConnection();
 
             // 데이터 조회
             sql = "SELECT * FROM PLAYER";
@@ -79,32 +81,6 @@ public class JdbcRepositoryTest {
             e.printStackTrace();
         } finally {
             close(con, pstmt, rs);
-        }
-    }
-
-    public static void close(Connection con, PreparedStatement pstmt, ResultSet rs) {
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (pstmt != null) {
-            try {
-                pstmt.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (con != null) {
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 }
