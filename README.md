@@ -13,11 +13,12 @@
 - IDE : IntelliJ Ultimate Edition
 - 형상관리 도구 : Git & Github
 - 구현 기능
-  - 회원가입(Users테이블) -> Admin(관리자)/Player(선수)을 컬럼으로 구분하여 회원 저장
+  - ~~회원가입(Users테이블) -> Admin(관리자)/Player(선수)을 컬럼으로 구분하여 회원 저장~~
   - 로그인/로그아웃 -> Java 코드 내에서 분기하여 로직구성
   - 선수 등록, 탈퇴, 수정, 조회 -> Users(Player) 만 가능
   - 팀 등록, 탈퇴, 수정 조회 -> Users(Admin) 만 가능
   - 리그 등록, 탈퇴 -> Users(Admin) 만 가능
+  - 코드 리팩토링
 
 ### DB Diagram
 ![db.png](src/resources/DB_Diagram.png)
