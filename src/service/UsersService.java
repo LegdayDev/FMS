@@ -44,7 +44,7 @@ public class UsersService {
         String encodePW = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
 
         // 3. DB 저장
-        String insertSql = "INSERT INTO USERS VALUES(USERS_SEQ.nextval, ?, ?, ?, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'), ?)";
+        String insertSql = "INSERT INTO USERS VALUES(USERS_SEQ.nextval, ?, ?, ?, ?, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'), TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'))";
 
         pstmt = con.prepareStatement(insertSql);
         pstmt.setString(1, user.getUsername());
@@ -110,7 +110,8 @@ public class UsersService {
 
                 // TODO : ADMIN 메뉴 메서드 추가해야함
             }
-        } else if (findRole.equals("Player")) {
+        }
+        else if (findRole.equals("Player")) {
             while (true) {
                 System.out.println("==== 메뉴를 선택하세요 ====");
                 System.out.println("1. 선수등록");
@@ -118,7 +119,8 @@ public class UsersService {
                 System.out.println("3. 팀 조회");
                 System.out.println("4. 리그 조회");
                 System.out.println("5. 선수 등록 해제");
-                System.out.println("6. 로그아웃");
+                System.out.println("6. 선수 정보 업데이트");
+                System.out.println("7. 로그아웃");
                 System.out.print(">>>>>>>>>> ");
                 String select = sc.nextLine();
 
@@ -128,8 +130,10 @@ public class UsersService {
                     case "3" -> UserRepository.findToTeam(con);
                     case "4" -> UserRepository.findToLeague(con);
                     case "5" -> UserRepository.deleteToPlayer(userId, con, sc);
+                    case "6" -> UserRepository.updateToPlayer(userId, con, sc);
+                    // TODO : Palyer 업데이트 기능 추가
                 }
-                if (select.equals("6")) {
+                if (select.equals("7")) {
                     break;
                 }
             }
