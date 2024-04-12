@@ -131,7 +131,6 @@ public class UsersService {
                     case "4" -> UserRepository.findToLeague(con);
                     case "5" -> UserRepository.deleteToPlayer(userId, con, sc);
                     case "6" -> UserRepository.updateToPlayer(userId, con, sc);
-                    // TODO : Palyer 업데이트 기능 추가
                 }
                 if (select.equals("7")) {
                     break;
