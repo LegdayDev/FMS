@@ -1,5 +1,7 @@
 package repository;
 
+import dto.PlayerListDto;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,20 +40,26 @@ public class UserRepository {
     }
 
     public static void playerFindAll(Connection con) throws SQLException {
+        // TODO : 선수정보 출력시 선수명, 나이 , 키 , 팀명 출력(JOIN 필요)
         System.out.println("\n==== 선수 목록 조회 메뉴 입니다. ====");
-        List<String> playerNameList = new ArrayList<>();
-        String sql = "SELECT PLAYER_NAME FROM PLAYER";
+        List<PlayerListDto> dtoList = new ArrayList<>();
+        String sql = "SELECT PLAYER_NAME, AGE, HEIGHT, TEAM_NAME FROM PLAYER INNER JOIN TEAM ON PLAYER.TEAM_ID = TEAM.TEAM_ID";
 
         PreparedStatement pstmt = con.prepareStatement(sql);
         ResultSet rs = pstmt.executeQuery();
 
         while (rs.next()) {
-            playerNameList.add(rs.getString("PLAYER_NAME"));
+            String playerName = rs.getString("PLAYER_NAME");
+            int age = rs.getInt("AGE");
+            int height = rs.getInt("HEIGHT");
+            String teamName = rs.getString("TEAM_NAME");
+            dtoList.add(new PlayerListDto(playerName, age, height, teamName));
         }
 
-        for (int i = 0; i < playerNameList.size(); i++) {
-            System.out.println((i + 1) + "번 째 선수 : " + playerNameList.get(i));
+        for (int i = 0; i < dtoList.size(); i++) {
+            System.out.println((i+1) +"번 째 : " + dtoList.get(i));
         }
+
         System.out.println();
         rs.close();
         pstmt.close();
