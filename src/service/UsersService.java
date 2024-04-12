@@ -2,12 +2,14 @@ package service;
 
 import domain.Users;
 import org.mindrot.jbcrypt.BCrypt;
+import repository.UserRepository;
 import util.DBConnectionUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 public class UsersService {
     /* 회원가입 메서드
@@ -42,7 +44,7 @@ public class UsersService {
         String encodePW = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
 
         // 3. DB 저장
-        String insertSql = "INSERT INTO USERS VALUES(USERS_SEQ.nextval, ?, ?, ?, ?)";
+        String insertSql = "INSERT INTO USERS VALUES(USERS_SEQ.nextval, ?, ?, ?, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'), ?)";
 
         pstmt = con.prepareStatement(insertSql);
         pstmt.setString(1, user.getUsername());
@@ -53,5 +55,86 @@ public class UsersService {
         DBConnectionUtil.close(con, pstmt, rs);
 
         return result; // 변경되는 값이 없으면 0 반환
+    }
+
+    /* 로그인 메서드
+    1. ID(USER_NAME컬럼)을 입력받아 DB 에 존재하는지 체크(잘못된 유저면 return)
+    2. 로그인한 유저는 성공 메시지를 보내고 무한루프를 돌린다.
+    3. 팀 검색, 리그 검색, 선수등록/해제 기능 가능
+    4. 루프를 탈출하는것은 로그아웃
+     */
+    public static void login(String username, String password, Scanner sc) throws ClassNotFoundException, SQLException {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        Class.forName("oracle.jdbc.driver.OracleDriver");
+        con = DBConnectionUtil.getConnection();
+
+        // 올바른 User 인지 체크
+        String checkSql = "SELECT * FROM USERS WHERE USER_NAME=?";
+        pstmt = con.prepareStatement(checkSql);
+
+        pstmt.setString(1, username);
+        rs = pstmt.executeQuery();
+
+        if (rs.next()) {
+            String findUsername = rs.getString("USER_NAME");
+            String findPassword = rs.getString("PASSWORD");
+            boolean checkPW = BCrypt.checkpw(password, findPassword); // 같지않으면 false
+            if (findUsername.isEmpty() || !checkPW) {
+                System.out.println("아이디 혹은 비밀번호가 맞지 않습니다 !");
+                return;
+            }
+        } else { // 반환 컬럼이 없다면
+            System.out.println("가입되어 있지 않은 회원입니다 !");
+            return;
+        }
+        System.out.println("로그인에 성공하셨습니다!");
+
+        // Admin 인지 Player 인지 분기가 필요
+        String findRole = rs.getString("ROLE");
+        int userId = rs.getInt("USER_ID");
+
+        if (findRole.equals("Admin")) {
+            while (true) {
+                System.out.println("==== 메뉴를 선택하세요 ====");
+                System.out.println("1. 리그 추가");
+                System.out.println("2. 리그 조회");
+                System.out.println("3. 리그 수정");
+                System.out.println("4. 리그 삭제");
+                System.out.println("5. 팀 추가");
+                System.out.println("6. 팀 조회");
+                System.out.println("7. 팀 수정");
+                System.out.println("8. 팀 삭제");
+
+                // TODO : ADMIN 메뉴 메서드 추가해야함
+            }
+        } else if (findRole.equals("Player")) {
+            while (true) {
+                System.out.println("==== 메뉴를 선택하세요 ====");
+                System.out.println("1. 선수등록");
+                System.out.println("2. 선수목록 조회");
+                System.out.println("3. 팀 조회");
+                System.out.println("4. 리그 조회");
+                System.out.println("5. 선수 등록 해제");
+                System.out.println("6. 로그아웃");
+                System.out.print(">>>>>>>>>> ");
+                String select = sc.nextLine();
+
+                switch (select) {
+                    case "1" -> UserRepository.playerJoin(userId, con, sc);
+                    case "2" -> UserRepository.playerFindAll(con);
+                    case "3" -> UserRepository.findToTeam(con);
+                    case "4" -> UserRepository.findToLeague(con);
+                    case "5" -> UserRepository.deleteToPlayer(userId, con, sc);
+                }
+                if (select.equals("6")) {
+                    break;
+                }
+            }
+        }
+
+        DBConnectionUtil.close(con, pstmt, rs);
     }
 }
