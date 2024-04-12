@@ -40,7 +40,6 @@ public class UserRepository {
     }
 
     public static void playerFindAll(Connection con) throws SQLException {
-        // TODO : 선수정보 출력시 선수명, 나이 , 키 , 팀명 출력(JOIN 필요)
         System.out.println("\n==== 선수 목록 조회 메뉴 입니다. ====");
         List<PlayerListDto> dtoList = new ArrayList<>();
         String sql = "SELECT PLAYER_NAME, AGE, HEIGHT, TEAM_NAME FROM PLAYER INNER JOIN TEAM ON PLAYER.TEAM_ID = TEAM.TEAM_ID";
