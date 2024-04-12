@@ -9,16 +9,23 @@
 - 데이터베이스 : Oracle Database(Docker)
 - 외부 라이브러리 및 모듈
     - Oracle Jdbc Driver 11
-    - 
+    - jbcrypt 0.4
 - IDE : IntelliJ Ultimate Edition
 - 형상관리 도구 : Git & Github
+- 프로젝트 간단 설명
+  1. Users(사용자) 는 원하는 선수를 등록,조회,삭제,수정이 가능하다.
+  2. Users(관리자) 는 팀,리그 추가,삭제가 가능하다.
 - 구현 기능
-  - ~~회원가입(Users테이블) -> Admin(관리자)/Player(선수)을 컬럼으로 구분하여 회원 저장~~
-    - ~~ID(USER_NAME 컬럼) 중복체크~~
-    - ~~비밀번호 암호화해서 DB 저장~~
-  - 로그인/로그아웃 -> Java 코드 내에서 분기하여 로직구성
-  - 선수 등록, 탈퇴, 수정, 조회 -> Users(Player) 만 가능
-  - 팀 등록, 탈퇴, 수정 조회 -> Users(Admin) 만 가능
+  - 회원가입(Users테이블) -> Admin(관리자)/Player(선수)을 컬럼으로 구분하여 회원 저장
+    - ID(USER_NAME 컬럼) 중복체크
+    - 비밀번호 암호화해서 DB 저장
+  - 로그인/로그아웃
+    - 로그인 성공 시 Users 의 ROLE 이 Admin 인지 Player 인지 분기하여 기능 제공
+    - Player 인 경우
+      - 선수등록, 선수조회, 팀 조회, 리그 조회, 선수 삭제 기능 구현 완료
+    - Admin 인 경우
+      - 구현 미완.
+
   - 리그 등록, 탈퇴 -> Users(Admin) 만 가능
   - 코드 리팩토링
 
