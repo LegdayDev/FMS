@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class UserRepository {
 
     public static void playerJoin(int userId, Connection con, Scanner sc) throws SQLException {
-        String insertSql = "INSERT INTO PLAYER VALUES(PLAYER_SEQ.nextval, ?, ?, ?, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'), ?, ?)";
+        String insertSql = "INSERT INTO PLAYER VALUES(PLAYER_SEQ.nextval, ?, ?, ?, ?, ?, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'), TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'))";
         PreparedStatement pstmt = con.prepareStatement(insertSql);
 
         System.out.println();
@@ -111,8 +111,71 @@ public class UserRepository {
 
         int result = pstmt.executeUpdate();
         if (result > 0) System.out.println("선수 삭제가 완료되었습니다 !");
-        else System.out.println("선수 삭제가 실패했습니다 !");
+        else System.out.println("선수명이 존재하지 않거나 삭제 권한이 없습니다!");
 
         System.out.println();
+    }
+
+    // 선수 정보 업데이트 메서드
+    public static void updateToPlayer(int userId, Connection con, Scanner sc) throws SQLException {
+        System.out.println("\n==== 선수정보 수정 메뉴 입니다. ====");
+        System.out.print("수정할 정보를 골라주세요(1. 선수명, 2. 나이, 3. 팀) >> ");
+        String select = sc.nextLine();
+
+        switch (select) {
+            case "1" -> {
+                System.out.print("기존 선수명을 입력하세요 >> ");
+                String originalName = sc.nextLine();
+                System.out.print("새로운 선수명을 입력하세요 >> ");
+                String newName = sc.nextLine();
+
+                String updateSql = "UPDATE PLAYER SET PLAYER_NAME=? WHERE USER_ID=? AND PLAYER_NAME=?";
+                PreparedStatement pstmt = con.prepareStatement(updateSql);
+
+                pstmt.setString(1, newName);
+                pstmt.setInt(2, userId);
+                pstmt.setString(3, originalName);
+
+                int result = pstmt.executeUpdate();
+                if (result > 0) System.out.println("선수명 변경에 성공하셨습니다 !");
+                else System.out.println("선수가 존재하지 않거나 수정권한이 없습니다 !");
+            }
+            case "2" -> {
+                System.out.print("변경할 선수명을 입력해주세요 >> ");
+                String playerName = sc.nextLine();
+                System.out.print("변경할 나이를 입력하시오 >> ");
+                int age = sc.nextInt();
+                sc.nextLine();
+
+                String updateSql = "UPDATE PLAYER SET AGE=? WHERE USER_ID=? AND PLAYER_NAME=?";
+                PreparedStatement pstmt = con.prepareStatement(updateSql);
+                pstmt.setInt(1, age);
+                pstmt.setInt(2, userId);
+                pstmt.setString(3, playerName);
+
+                int result = pstmt.executeUpdate();
+                if (result > 0) System.out.println(playerName + " 선수 나이 변경이 성공하였습니다 !");
+                else System.out.println("선수가 존재하지 않거나 수정권한이 없습니다 !");
+            }
+            case "3" -> {
+                System.out.print("변경할 선수명을 입력해주세요 >> ");
+                String playerName = sc.nextLine();
+                System.out.print("변경할 팀을 골라주세요(1. ManUtd, 2.ManCity, 3.Bayern, 4.Dortmund, 5.Braca, 6.Real) >> ");
+                int teamId = sc.nextInt();
+                sc.nextLine();
+
+                String updateSql = "UPDATE PLAYER SET TEAM_ID=? WHERE PLAYER_NAME=? AND USER_ID=?";
+                PreparedStatement pstmt = con.prepareStatement(updateSql);
+
+                pstmt.setInt(1, teamId);
+                pstmt.setString(2, playerName);
+                pstmt.setInt(3, userId);
+
+                int result = pstmt.executeUpdate();
+                if (result > 0) System.out.println(playerName + "의 팀 변경이 성공하였습니다 !");
+                else System.out.println("선수가 존재하지 않거나 수정권한이 없습니다 !");
+            }
+            default -> System.out.println("잘못 입력하셨습니다.");
+        }
     }
 }
