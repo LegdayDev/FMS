@@ -25,7 +25,9 @@ public class Main {
             System.out.println("==== 메뉴를 선택해주세요 ====");
             System.out.println("1. 회원가입");
             System.out.println("2. 로그인");
-            System.out.println("3. 종료");
+            System.out.println("3. 회원탈퇴");
+            System.out.println("4. 종료");
+            System.out.print("번호를 입력하시오 >> ");
 
             String select = sc.nextLine();
 
@@ -53,7 +55,7 @@ public class Main {
                     UsersService.login(username, password, sc);
                 }
             }
-            if (select.equals("3")) {
+            if (select.equals("4")) {
                 break;
             }
         }
