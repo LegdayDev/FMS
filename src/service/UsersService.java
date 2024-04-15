@@ -17,7 +17,7 @@ import static util.TitleUtil.*;
 
 public class UsersService {
 
-    public static void join(String username, String password, String role, String address, Scanner sc) throws Exception{
+    public static void join(String username, String password, String role, String address, Scanner sc) throws Exception {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -97,24 +97,28 @@ public class UsersService {
                 clearScreen();
                 System.out.println("==== 메뉴를 선택하세요 ====");
                 System.out.println("1. 리그 추가");
-                System.out.println("2. 리그 수정");
-                System.out.println("3. 리그 삭제");
-                System.out.println("4. 팀 추가");
-                System.out.println("5. 팀 수정");
-                System.out.println("6. 팀 삭제");
-                System.out.println("7. 로그아웃");
+                System.out.println("2. 리그 조회");
+                System.out.println("3. 리그 수정");
+                System.out.println("4. 리그 삭제");
+                System.out.println("5. 팀 추가");
+                System.out.println("6. 팀 조회");
+                System.out.println("7. 팀 수정");
+                System.out.println("8. 팀 삭제");
+                System.out.println("9. 로그아웃");
                 System.out.print("번호를 입력하시오 >> ");
                 String select = sc.nextLine();
 
                 switch (select) {
                     case "1" -> AdminRepository.insertLeague(con, sc);
-                    case "2" -> AdminRepository.updateLeague(con, sc);
-                    case "3" -> AdminRepository.deleteLeague(con, sc);
-                    case "4" -> AdminRepository.insertTeam(con, sc);
-                    case "5" -> AdminRepository.updateTeam(con, sc);
-                    case "6" -> AdminRepository.deleteTeam(con, sc);
+                    case "2" -> UserRepository.findToLeague(con, sc);
+                    case "3" -> AdminRepository.updateLeague(con, sc);
+                    case "4" -> AdminRepository.deleteLeague(con, sc);
+                    case "5" -> AdminRepository.insertTeam(con, sc);
+                    case "6" -> UserRepository.findToTeam(con, sc);
+                    case "7" -> AdminRepository.updateTeam(con, sc);
+                    case "8" -> AdminRepository.deleteTeam(con, sc);
                 }
-                if (select.equals("7")) {
+                if (select.equals("9")) {
                     System.out.println("로그아웃 되었습니다 !");
                     Thread.sleep(2500);
                     break;
@@ -136,9 +140,9 @@ public class UsersService {
 
                 switch (select) {
                     case "1" -> UserRepository.playerJoin(userId, con, sc);
-                    case "2" -> UserRepository.playerFindAll(con,sc);
-                    case "3" -> UserRepository.findToTeam(con,sc);
-                    case "4" -> UserRepository.findToLeague(con,sc);
+                    case "2" -> UserRepository.playerFindAll(con, sc);
+                    case "3" -> UserRepository.findToTeam(con, sc);
+                    case "4" -> UserRepository.findToLeague(con, sc);
                     case "5" -> UserRepository.deleteToPlayer(userId, con, sc);
                     case "6" -> UserRepository.updateToPlayer(userId, con, sc);
                 }
