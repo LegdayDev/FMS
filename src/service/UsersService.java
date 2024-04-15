@@ -130,8 +130,8 @@ public class UsersService {
                 System.out.println("2. 선수목록 조회");
                 System.out.println("3. 팀 조회");
                 System.out.println("4. 리그 조회");
-                System.out.println("5. 선수 등록 해제");
-                System.out.println("6. 선수 정보 업데이트");
+                System.out.println("5. 선수 삭제");
+                System.out.println("6. 선수 정보 수정");
                 System.out.println("7. 로그아웃");
                 System.out.print("번호를 입력하시오 >>  ");
                 String select = sc.nextLine();
