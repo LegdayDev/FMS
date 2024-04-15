@@ -3,6 +3,7 @@ package repository;
 import dto.LeagueListDto;
 import dto.PlayerListDto;
 import dto.TeamListDto;
+import util.TitleUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,13 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static util.TitleUtil.*;
+
 public class UserRepository {
 
     public static void playerJoin(int userId, Connection con, Scanner sc) throws SQLException {
         String insertSql = "INSERT INTO PLAYER VALUES(PLAYER_SEQ.nextval, ?, ?, ?, ?, ?, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'), TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'))";
         PreparedStatement pstmt = con.prepareStatement(insertSql);
 
-        System.out.println();
+        clearScreen();
         System.out.println("==== 선수등록 메뉴 입니다. ====");
         System.out.print("선수명을 입력하시오 >> ");
         pstmt.setString(1, sc.nextLine());
@@ -37,10 +40,13 @@ public class UserRepository {
         if (result > 0) System.out.println("선수등록이 성공하셨습니다 !");
         else System.out.println("선수등록에 실패하셨습니다 !");
 
+        System.out.print("\n메뉴로 돌아가실려면 Enter 키를 누르시오 >> ");
+        sc.nextLine();
         pstmt.close();
     }
 
-    public static void playerFindAll(Connection con) throws SQLException {
+    public static void playerFindAll(Connection con, Scanner sc) throws SQLException {
+        clearScreen();
         System.out.println("\n==== 선수 목록 조회 메뉴 입니다. ====");
         List<PlayerListDto> dtoList = new ArrayList<>();
         String sql = "SELECT PLAYER_ID, PLAYER_NAME, AGE, HEIGHT, TEAM_NAME FROM PLAYER INNER JOIN TEAM ON PLAYER.TEAM_ID = TEAM.TEAM_ID ORDER BY PLAYER_ID";
@@ -60,11 +66,14 @@ public class UserRepository {
             System.out.println((i + 1) + "번 째 : " + dtoList.get(i));
         }
 
+        System.out.print("\n메뉴로 돌아가실려면 Enter 키를 누르시오 >> ");
+        sc.nextLine();
         rs.close();
         pstmt.close();
     }
 
-    public static void findToTeam(Connection con) throws SQLException {
+    public static void findToTeam(Connection con, Scanner sc) throws SQLException {
+        clearScreen();
         System.out.println("\n==== 팀 조회 메뉴 입니다. ====");
         List<TeamListDto> teamList = new ArrayList<>();
         String sql = "SELECT TEAM_ID, TEAM_NAME, STADIUM_NAME, LOC FROM TEAM ORDER BY TEAM_ID";
@@ -84,12 +93,14 @@ public class UserRepository {
             System.out.println(dto);
         }
 
-        System.out.println();
+        System.out.print("\n메뉴로 돌아가실려면 Enter 키를 누르시오 >> ");
+        sc.nextLine();
         rs.close();
         pstmt.close();
     }
 
-    public static void findToLeague(Connection con) throws SQLException {
+    public static void findToLeague(Connection con, Scanner sc) throws SQLException {
+        clearScreen();
         System.out.println("\n==== 리그조회 메뉴 입니다. ====");
         List<LeagueListDto> leagueList = new ArrayList<>();
         String sql = "SELECT LEAGUE_ID, LEAGUE_NAME, COUNTRY FROM LEAGUE ORDER BY LEAGUE_ID";
@@ -108,12 +119,14 @@ public class UserRepository {
             System.out.println(dto);
         }
 
-        System.out.println();
+        System.out.print("\n메뉴로 돌아가실려면 Enter 키를 누르시오 >> ");
+        sc.nextLine();
         rs.close();
         pstmt.close();
     }
 
     public static void deleteToPlayer(int userId, Connection con, Scanner sc) throws SQLException {
+        clearScreen();
         System.out.println("\n==== 선수등록 해제 메뉴 입니다. ====");
         String deleteSql = "DELETE FROM PLAYER WHERE PLAYER_NAME=? AND USER_ID=?";
         PreparedStatement pstmt = con.prepareStatement(deleteSql);
@@ -127,10 +140,13 @@ public class UserRepository {
         if (result > 0) System.out.println("선수 삭제가 완료되었습니다 !");
         else System.out.println("선수명이 존재하지 않거나 삭제 권한이 없습니다!");
 
+        System.out.print("\n메뉴로 돌아가실려면 Enter 키를 누르시오 >> ");
+        sc.nextLine();
         pstmt.close();
     }
 
     public static void updateToPlayer(int userId, Connection con, Scanner sc) throws SQLException {
+        clearScreen();
         System.out.println("\n==== 선수정보 수정 메뉴 입니다. ====");
         System.out.print("수정할 정보를 골라주세요(1. 선수명, 2. 나이, 3. 팀) >> ");
         String select = sc.nextLine();
@@ -149,12 +165,13 @@ public class UserRepository {
                 pstmt.setString(1, newName);
                 pstmt.setInt(2, userId);
                 pstmt.setString(3, originalName);
-
                 int result = pstmt.executeUpdate();
 
                 if (result > 0) System.out.println("선수명 변경에 성공하셨습니다 !");
                 else System.out.println("선수가 존재하지 않거나 수정권한이 없습니다 !");
 
+                System.out.print("\n메뉴로 돌아가실려면 Enter 키를 누르시오 >> ");
+                sc.nextLine();
                 pstmt.close();
             }
             case "2" -> {
@@ -175,6 +192,8 @@ public class UserRepository {
                 if (result > 0) System.out.println(playerName + " 선수 나이 변경이 성공하였습니다 !");
                 else System.out.println("선수가 존재하지 않거나 수정권한이 없습니다 !");
 
+                System.out.print("\n메뉴로 돌아가실려면 Enter 키를 누르시오 >> ");
+                sc.nextLine();
                 pstmt.close();
             }
             case "3" -> {
@@ -196,6 +215,8 @@ public class UserRepository {
                 if (result > 0) System.out.println(playerName + "의 팀 변경이 성공하였습니다 !");
                 else System.out.println("선수가 존재하지 않거나 수정권한이 없습니다 !");
 
+                System.out.print("\n메뉴로 돌아가실려면 Enter 키를 누르시오 >> ");
+                sc.nextLine();
                 pstmt.close();
             }
             default -> System.out.println("잘못 입력하셨습니다.");
