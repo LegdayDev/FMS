@@ -2,6 +2,7 @@ package service;
 
 import domain.Users;
 import org.mindrot.jbcrypt.BCrypt;
+import repository.AdminRepository;
 import repository.UserRepository;
 import util.DBConnectionUtil;
 
@@ -100,18 +101,29 @@ public class UsersService {
             while (true) {
                 System.out.println("==== 메뉴를 선택하세요 ====");
                 System.out.println("1. 리그 추가");
-                System.out.println("2. 리그 조회");
-                System.out.println("3. 리그 수정");
-                System.out.println("4. 리그 삭제");
-                System.out.println("5. 팀 추가");
-                System.out.println("6. 팀 조회");
-                System.out.println("7. 팀 수정");
-                System.out.println("8. 팀 삭제");
+                System.out.println("2. 리그 수정");
+                System.out.println("3. 리그 삭제");
+                System.out.println("4. 팀 추가");
+                System.out.println("5. 팀 수정");
+                System.out.println("6. 팀 삭제");
+                System.out.println("7. 로그아웃");
+                System.out.print("번호를 입력하시오 >> ");
+                String select = sc.nextLine();
 
-                // TODO : ADMIN 메뉴 메서드 추가해야함
+                switch (select) {
+                    case "1" -> AdminRepository.insertLeague(con, sc);
+                    case "2" -> AdminRepository.updateLeague(con, sc);
+                    case "3" -> AdminRepository.deleteLeague(con, sc);
+                    case "4" -> AdminRepository.insertTeam(con, sc);
+                    case "5" -> AdminRepository.updateTeam(con, sc);
+                    case "6" -> AdminRepository.deleteTeam(con, sc);
+                }
+                if (select.equals("7")) {
+                    System.out.println("로그아웃 되었습니다 !");
+                    break;
+                }
             }
-        }
-        else if (findRole.equals("Player")) {
+        } else if (findRole.equals("Player")) {
             while (true) {
                 System.out.println("==== 메뉴를 선택하세요 ====");
                 System.out.println("1. 선수등록");
@@ -121,7 +133,7 @@ public class UsersService {
                 System.out.println("5. 선수 등록 해제");
                 System.out.println("6. 선수 정보 업데이트");
                 System.out.println("7. 로그아웃");
-                System.out.print(">>>>>>>>>> ");
+                System.out.print("번호를 입력하시오 >>  ");
                 String select = sc.nextLine();
 
                 switch (select) {
@@ -133,6 +145,7 @@ public class UsersService {
                     case "6" -> UserRepository.updateToPlayer(userId, con, sc);
                 }
                 if (select.equals("7")) {
+                    System.out.println("로그아웃 되었습니다 !");
                     break;
                 }
             }
