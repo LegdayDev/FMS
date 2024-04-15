@@ -1,6 +1,8 @@
 package repository;
 
+import dto.LeagueListDto;
 import dto.PlayerListDto;
+import dto.TeamListDto;
 import oracle.jdbc.proxy.annotation.Pre;
 
 import java.sql.Connection;
@@ -67,18 +69,22 @@ public class UserRepository {
 
     public static void findToTeam(Connection con) throws SQLException {
         System.out.println("\n==== 팀 조회 메뉴 입니다. ====");
-        List<String> teamList = new ArrayList<>();
-        String sql = "SELECT TEAM_NAME FROM TEAM";
+        List<TeamListDto> teamList = new ArrayList<>();
+        String sql = "SELECT TEAM_ID, TEAM_NAME, STADIUM_NAME, LOC FROM TEAM ORDER BY TEAM_ID";
 
         PreparedStatement pstmt = con.prepareStatement(sql);
         ResultSet rs = pstmt.executeQuery();
 
         while (rs.next()) {
-            teamList.add(rs.getString("TEAM_NAME"));
+            String teamName = rs.getString("TEAM_NAME");
+            String stadiumName = rs.getString("STADIUM_NAME");
+            String loc = rs.getString("LOC");
+
+            teamList.add(new TeamListDto(teamName, stadiumName, loc));
         }
 
-        for (int i = 0; i < teamList.size(); i++) {
-            System.out.println((i + 1) + "번 째 팀 : " + teamList.get(i));
+        for (TeamListDto dto : teamList) {
+            System.out.println(dto);
         }
 
         System.out.println();
@@ -88,18 +94,21 @@ public class UserRepository {
 
     public static void findToLeague(Connection con) throws SQLException {
         System.out.println("\n==== 리그조회 메뉴 입니다. ====");
-        List<String> leagueList = new ArrayList<>();
-        String sql = "SELECT LEAGUE_NAME FROM LEAGUE";
+        List<LeagueListDto> leagueList = new ArrayList<>();
+        String sql = "SELECT LEAGUE_ID, LEAGUE_NAME, COUNTRY FROM LEAGUE ORDER BY LEAGUE_ID";
 
         PreparedStatement pstmt = con.prepareStatement(sql);
         ResultSet rs = pstmt.executeQuery();
 
         while (rs.next()) {
-            leagueList.add(rs.getString("LEAGUE_NAME"));
+            String leagueName = rs.getString("LEAGUE_NAME");
+            String country = rs.getString("COUNTRY");
+
+            leagueList.add(new LeagueListDto(leagueName, country));
         }
 
-        for (int i = 0; i < leagueList.size(); i++) {
-            System.out.println((i + 1) + "번 째 팀 : " + leagueList.get(i));
+        for (LeagueListDto dto : leagueList) {
+            System.out.println(dto);
         }
 
         System.out.println();
