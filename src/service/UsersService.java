@@ -4,6 +4,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import repository.AdminRepository;
 import repository.UserRepository;
 import util.DBConnectionUtil;
+import util.TitleUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,9 +12,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import static util.TitleUtil.*;
+
+
 public class UsersService {
 
-    public static void join(String username, String password, String role, String address) throws ClassNotFoundException, SQLException {
+    public static void join(String username, String password, String role, String address, Scanner sc) throws Exception{
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -31,6 +35,7 @@ public class UsersService {
             String findUsername = rs.getString("USER_NAME");
             if (!findUsername.isEmpty()) {
                 System.out.println("이미 회원가입이 된 유저입니다.");
+                Thread.sleep(2500);
                 return;
             }
         }
@@ -48,12 +53,12 @@ public class UsersService {
 
         if (result > 0) System.out.println("회원가입에 성공하셨습니다.");
         else System.out.println("회원가입에 실패하셨습니다!");
-
+        Thread.sleep(2500);
         DBConnectionUtil.close(con, pstmt, rs);
     }
 
 
-    public static void login(String username, String password, Scanner sc) throws ClassNotFoundException, SQLException {
+    public static void login(String username, String password, Scanner sc) throws Exception {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -74,19 +79,22 @@ public class UsersService {
             boolean checkPW = BCrypt.checkpw(password, findPassword); // 같지않으면 false
             if (findUsername.isEmpty() || !checkPW) {
                 System.out.println("아이디 혹은 비밀번호가 맞지 않습니다 !");
+                Thread.sleep(2500);
                 return;
             }
         } else {
             System.out.println("가입되어 있지 않은 회원입니다 !");
+            Thread.sleep(2500);
             return;
         }
         System.out.println("로그인에 성공하셨습니다!");
-
+        Thread.sleep(2500);
         String findRole = rs.getString("ROLE");
         int userId = rs.getInt("USER_ID");
 
         if (findRole.equals("Admin") || findRole.equals("admin")) {
             while (true) {
+                clearScreen();
                 System.out.println("==== 메뉴를 선택하세요 ====");
                 System.out.println("1. 리그 추가");
                 System.out.println("2. 리그 수정");
@@ -108,11 +116,13 @@ public class UsersService {
                 }
                 if (select.equals("7")) {
                     System.out.println("로그아웃 되었습니다 !");
+                    Thread.sleep(2500);
                     break;
                 }
             }
         } else if (findRole.equals("Player") || findRole.equals("player")) {
             while (true) {
+                clearScreen();
                 System.out.println("==== 메뉴를 선택하세요 ====");
                 System.out.println("1. 선수등록");
                 System.out.println("2. 선수목록 조회");
@@ -126,9 +136,9 @@ public class UsersService {
 
                 switch (select) {
                     case "1" -> UserRepository.playerJoin(userId, con, sc);
-                    case "2" -> UserRepository.playerFindAll(con);
-                    case "3" -> UserRepository.findToTeam(con);
-                    case "4" -> UserRepository.findToLeague(con);
+                    case "2" -> UserRepository.playerFindAll(con,sc);
+                    case "3" -> UserRepository.findToTeam(con,sc);
+                    case "4" -> UserRepository.findToLeague(con,sc);
                     case "5" -> UserRepository.deleteToPlayer(userId, con, sc);
                     case "6" -> UserRepository.updateToPlayer(userId, con, sc);
                 }
@@ -142,7 +152,7 @@ public class UsersService {
         DBConnectionUtil.close(con, pstmt, rs);
     }
 
-    public static void deleteUser(String username, String password, Scanner sc) throws ClassNotFoundException, SQLException {
+    public static void deleteUser(String username, String password, Scanner sc) throws ClassNotFoundException, SQLException, InterruptedException {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -163,10 +173,12 @@ public class UsersService {
             boolean checkPW = BCrypt.checkpw(password, findPassword); // 같지않으면 false
             if (findUsername.isEmpty() || !checkPW) {
                 System.out.println("아이디 혹은 비밀번호가 맞지 않습니다 !");
+                Thread.sleep(2500);
                 return;
             }
         } else {
             System.out.println("가입되어 있지 않은 회원입니다 !");
+            Thread.sleep(2500);
             return;
         }
 
@@ -177,7 +189,7 @@ public class UsersService {
 
         if (result > 0) System.out.println("회원탈퇴를 성공하였습니다 !");
         else System.out.println("회원탈퇴를 실패하셨습니다 !");
-
+        Thread.sleep(2500);
         DBConnectionUtil.close(con, pstmt, rs);
     }
 }

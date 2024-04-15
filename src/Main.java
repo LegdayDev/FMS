@@ -1,27 +1,21 @@
 import service.UsersService;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 
-public class Main {
-    public static String title =
-            """
-                             _______   ______     ______   .___________.   .______        ___       __       __     \s
-                            |   ____| /  __  \\   /  __  \\  |           |   |   _  \\      /   \\     |  |     |  |    \s
-                            |  |__   |  |  |  | |  |  |  | `---|  |----`   |  |_)  |    /  ^  \\    |  |     |  |    \s
-                            |   __|  |  |  |  | |  |  |  |     |  |        |   _  <    /  /_\\  \\   |  |     |  |    \s
-                            |  |     |  `--'  | |  `--'  |     |  |        |  |_)  |  /  _____  \\  |  `----.|  `----.
-                            |__|      \\______/   \\______/      |__|        |______/  /__/     \\__\\ |_______||_______|
-                                                                                                                    \s
-                    """;
+import static util.TitleUtil.clearScreen;
+import static util.TitleUtil.title;
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+public class Main {
+
+
+    public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
+        int count =0;
         System.out.println();
 
         System.out.println(title);
-
         while (true) {
+            if(count!=0) clearScreen();
             System.out.println("==== 메뉴를 선택해주세요 ====");
             System.out.println("1. 회원가입");
             System.out.println("2. 로그인");
@@ -33,6 +27,8 @@ public class Main {
 
             switch (select) {
                 case "1" -> {
+                    clearScreen();
+                    System.out.println("==== 회원가입 메뉴입니다. ====");
                     System.out.print("UserName(ID)를 입력하세요 >> ");
                     String username = sc.nextLine();
                     System.out.print("PW를 입력하세요 >> ");
@@ -42,9 +38,11 @@ public class Main {
                     System.out.print("주소를 입력하세요 >> ");
                     String address = sc.nextLine();
 
-                    UsersService.join(username, password, role, address);
+                    UsersService.join(username, password, role, address, sc);
                 }
                 case "2" -> {
+                    clearScreen();
+                    System.out.println("==== 로그인 메뉴입니다. ====");
                     System.out.print("아이디를 입력하시오 >> ");
                     String username = sc.nextLine();
                     System.out.print("비밀번호를 입력하시오 >> ");
@@ -52,6 +50,8 @@ public class Main {
                     UsersService.login(username, password, sc);
                 }
                 case "3" -> {
+                    clearScreen();
+                    System.out.println("==== 회원탈퇴 메뉴입니다. ====");
                     System.out.print("탈퇴할 아이디를 입력하시오 >> ");
                     String username = sc.nextLine();
                     System.out.print("탈퇴할 비밀번호를 입력하시오 >> ");
@@ -60,6 +60,7 @@ public class Main {
                 }
             }
             if (select.equals("4")) break;
+            count++;
         }
         sc.close();
         System.out.println("프로그램이 종료되었습니다");
