@@ -153,4 +153,42 @@ public class UsersService {
 
         DBConnectionUtil.close(con, pstmt, rs);
     }
+
+    public static void deleteUser(String username, String password, Scanner sc) throws ClassNotFoundException, SQLException {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        Class.forName("oracle.jdbc.driver.OracleDriver");
+        con = DBConnectionUtil.getConnection();
+
+        // 올바른 User 인지 체크
+        String checkSql = "SELECT * FROM USERS WHERE USER_NAME=?";
+        pstmt = con.prepareStatement(checkSql);
+
+        pstmt.setString(1, username);
+        rs = pstmt.executeQuery();
+
+        if (rs.next()) {
+            String findUsername = rs.getString("USER_NAME");
+            String findPassword = rs.getString("PASSWORD");
+            boolean checkPW = BCrypt.checkpw(password, findPassword); // 같지않으면 false
+            if (findUsername.isEmpty() || !checkPW) {
+                System.out.println("아이디 혹은 비밀번호가 맞지 않습니다 !");
+                return;
+            }
+        } else { // 반환 컬럼이 없다면
+            System.out.println("가입되어 있지 않은 회원입니다 !");
+            return;
+        }
+
+        String deleteSql = "DELETE FROM USERS WHERE USER_NAME=?";
+        pstmt = con.prepareStatement(deleteSql);
+        pstmt.setString(1, username);
+        int result = pstmt.executeUpdate();
+        if (result > 0) System.out.println("회원탈퇴를 성공하였습니다 !");
+        else System.out.println("회원탈퇴를 실패하셨습니다 !");
+
+        DBConnectionUtil.close(con, pstmt, rs);
+    }
 }

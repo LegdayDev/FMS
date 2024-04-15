@@ -55,12 +55,14 @@ public class Main {
                     UsersService.login(username, password, sc);
                 }
                 case "3" -> {
-                    // TODO : ADMIN 기능 추가 후 회원탈퇴 구현해야함.
+                    System.out.println("탈퇴할 아이디를 입력하시오 >> ");
+                    String username = sc.nextLine();
+                    System.out.println("탈퇴할 비밀번호를 입력하시오 >> ");
+                    String password = sc.nextLine();
+                    UsersService.deleteUser(username, password, sc);
                 }
             }
-            if (select.equals("4")) {
-                break;
-            }
+            if (select.equals("4")) break;
         }
         sc.close();
         System.out.println("프로그램이 종료되었습니다");
