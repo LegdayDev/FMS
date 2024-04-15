@@ -121,6 +121,7 @@ public class UserRepository {
         else System.out.println("선수명이 존재하지 않거나 삭제 권한이 없습니다!");
 
         System.out.println();
+        // TODO : 리소스 정리 !!(PreparedStatment)
     }
 
     // 선수 정보 업데이트 메서드
@@ -128,6 +129,7 @@ public class UserRepository {
         System.out.println("\n==== 선수정보 수정 메뉴 입니다. ====");
         System.out.print("수정할 정보를 골라주세요(1. 선수명, 2. 나이, 3. 팀) >> ");
         String select = sc.nextLine();
+        // TODO : PreparedStatement 을 NULL 로 선언하여 SWITCH 각 분기마다 초기화하고 맨 마지막 리소스 정리
 
         switch (select) {
             case "1" -> {
