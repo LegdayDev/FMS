@@ -1,11 +1,14 @@
 package repository;
 
+import dto.LeagueSearchDto;
 import util.TitleUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import static util.TitleUtil.*;
@@ -128,12 +131,27 @@ public class AdminRepository {
                 return;
             }
         }
+        // 팀 추가를 위한 리그 목록이 필요함.
+        List<LeagueSearchDto> leagueList = new ArrayList<>();
+        String leagueListSql = "SELECT LEAGUE_ID, LEAGUE_NAME FROM LEAGUE ORDER BY LEAGUE_ID";
+        pstmt = con.prepareStatement(leagueListSql);
+        rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            int leagueId = rs.getInt("LEAGUE_ID");
+            String leagueName = rs.getString("LEAGUE_NAME");
+            leagueList.add(new LeagueSearchDto(leagueId, leagueName));
+        }
 
         System.out.print("구장명을 입력하세요 >> ");
         String stadiumName = sc.nextLine();
         System.out.print("연고지를 입력하세요 >> ");
         String loc = sc.nextLine();
-        System.out.print("소속 리그를 입력하세요(1.Premier League 2.Bundesliga 3.Laliga) >> ");
+        System.out.println("==== 소속 리그는 아래와 같습니다. ====");
+        for (LeagueSearchDto dto : leagueList) {
+            System.out.println(dto);
+        }
+        System.out.print("소속 리그 번호를 고르시오>> ");
         int league_id = sc.nextInt();
         sc.nextLine();
 
