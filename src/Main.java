@@ -43,6 +43,7 @@ public class Main {
                     String address = sc.nextLine();
 
                     Users user = new Users(username, password, role, address);
+                    // TODO : 회원가입 성공/실패 메시지도 join() 메서드 안에서 처리하자.
                     int result = UsersService.join(user);
                     if (result > 0) System.out.println("회원가입에 성공하셨습니다.");
                     else System.out.println("회원가입에 실패하셨습니다!");

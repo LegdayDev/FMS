@@ -186,7 +186,10 @@ public class UsersService {
         pstmt = con.prepareStatement(deleteSql);
         pstmt.setString(1, username);
         int result = pstmt.executeUpdate();
-        if (result > 0) System.out.println("회원탈퇴를 성공하였습니다 !");
+        if (result > 0) {
+            System.out.println("회원탈퇴를 성공하였습니다 !");
+            con.commit();
+        }
         else System.out.println("회원탈퇴를 실패하셨습니다 !");
 
         DBConnectionUtil.close(con, pstmt, rs);

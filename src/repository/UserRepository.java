@@ -35,7 +35,10 @@ public class UserRepository {
         pstmt.setInt(5, userId);
         int result = pstmt.executeUpdate();
 
-        if (result > 0) System.out.println("선수등록이 성공하셨습니다 !");
+        if (result > 0) {
+            System.out.println("선수등록이 성공하셨습니다 !");
+            con.commit();
+        }
         else System.out.println("선수등록에 실패하셨습니다 !");
 
         pstmt.close();
@@ -62,7 +65,7 @@ public class UserRepository {
             System.out.println((i+1) +"번 째 : " + dtoList.get(i));
         }
 
-        System.out.println();
+        System.out.println(); // TODO : 코드 리팩토링 시 지우자
         rs.close();
         pstmt.close();
     }
@@ -127,10 +130,11 @@ public class UserRepository {
         pstmt.setInt(2, userId);
 
         int result = pstmt.executeUpdate();
-        if (result > 0) System.out.println("선수 삭제가 완료되었습니다 !");
+        if (result > 0) {
+            System.out.println("선수 삭제가 완료되었습니다 !");
+            con.commit();
+        }
         else System.out.println("선수명이 존재하지 않거나 삭제 권한이 없습니다!");
-
-        System.out.println();
 
         pstmt.close();
     }
@@ -157,7 +161,10 @@ public class UserRepository {
                 pstmt.setString(3, originalName);
 
                 int result = pstmt.executeUpdate();
-                if (result > 0) System.out.println("선수명 변경에 성공하셨습니다 !");
+                if (result > 0) {
+                    System.out.println("선수명 변경에 성공하셨습니다 !");
+                    con.commit();
+                }
                 else System.out.println("선수가 존재하지 않거나 수정권한이 없습니다 !");
 
                 pstmt.close();
@@ -176,7 +183,10 @@ public class UserRepository {
                 pstmt.setString(3, playerName);
 
                 int result = pstmt.executeUpdate();
-                if (result > 0) System.out.println(playerName + " 선수 나이 변경이 성공하였습니다 !");
+                if (result > 0) {
+                    System.out.println(playerName + " 선수 나이 변경이 성공하였습니다 !");
+                    con.commit();
+                }
                 else System.out.println("선수가 존재하지 않거나 수정권한이 없습니다 !");
 
                 pstmt.close();
@@ -196,7 +206,10 @@ public class UserRepository {
                 pstmt.setInt(3, userId);
 
                 int result = pstmt.executeUpdate();
-                if (result > 0) System.out.println(playerName + "의 팀 변경이 성공하였습니다 !");
+                if (result > 0) {
+                    System.out.println(playerName + "의 팀 변경이 성공하였습니다 !");
+                    con.commit();
+                }
                 else System.out.println("선수가 존재하지 않거나 수정권한이 없습니다 !");
 
                 pstmt.close();

@@ -38,7 +38,10 @@ public class AdminRepository {
         pstmt.setString(1, leagueName);
         pstmt.setString(2, country);
         int result = pstmt.executeUpdate();
-        if (result > 0) System.out.println("리그가 정상적으로 추가되었습니다 !");
+        if (result > 0) {
+            System.out.println("리그가 정상적으로 추가되었습니다 !");
+            con.commit();
+        }
         else System.out.println("리그등록에 실패하셨습니다 !");
 
         rs.close();
@@ -62,7 +65,10 @@ public class AdminRepository {
         pstmt.setString(2, originalLeague);
         int result = pstmt.executeUpdate();
 
-        if (result > 0) System.out.println("리그명 변경이 완료되었습니다 !");
+        if (result > 0) {
+            System.out.println("리그명 변경이 완료되었습니다 !");
+            con.commit();
+        }
         else System.out.println("리그명 변경에 실패하셨습니다 !");
     }
 
@@ -92,7 +98,10 @@ public class AdminRepository {
         pstmt = con.prepareStatement(deleteSql);
         pstmt.setString(1, deleteLeagueName);
         int result = pstmt.executeUpdate();
-        if (result > 0) System.out.println("리그삭제가 성공하였습니다 !");
+        if (result > 0) {
+            System.out.println("리그삭제가 성공하였습니다 !");
+            con.commit();
+        }
         else System.out.println("리그삭제가 실패하였습니다 !");
 
         rs.close();
@@ -139,7 +148,10 @@ public class AdminRepository {
         pstmt.setInt(4, league_id);
 
         int result = pstmt.executeUpdate();
-        if (result > 0) System.out.println("팀 추가에 성공하셨습니다 !");
+        if (result > 0) {
+            System.out.println("팀 추가에 성공하셨습니다 !");
+            con.commit();
+        }
         else System.out.println("팀 추가가 실패하셨습니다 !");
 
         rs.close();
@@ -183,7 +195,10 @@ public class AdminRepository {
                 pstmt.setString(2, teamName);
                 int result = pstmt.executeUpdate();
 
-                if (result > 0) System.out.println("팀명 변경을 성공하셨습니다 !");
+                if (result > 0) {
+                    System.out.println("팀명 변경을 성공하셨습니다 !");
+                    con.commit();
+                }
                 else System.out.println("팀명 변경을 실패하셨습니다 !");
 
                 rs.close();
@@ -201,7 +216,10 @@ public class AdminRepository {
                 pstmt.setString(1, newStadiumName);
                 pstmt.setString(2, teamName);
                 int result = pstmt.executeUpdate();
-                if (result > 0) System.out.println("구장명 변경을 성공하셨습니다 !");
+                if (result > 0) {
+                    System.out.println("구장명 변경을 성공하셨습니다 !");
+                    con.commit();
+                }
                 else System.out.println("수정할 팀이 존재하지 않거나 구장명 변경에 실패하셨습니다 !");
 
                 pstmt.close();
@@ -222,7 +240,12 @@ public class AdminRepository {
         PreparedStatement pstmt = con.prepareStatement(deleteSql);
         pstmt.setString(1, teamName);
         int result = pstmt.executeUpdate();
-        if (result > 0) System.out.println("팀 삭제가 성공하였습니다 !");
+        if (result > 0) {
+            System.out.println("팀 삭제가 성공하였습니다 !");
+            con.commit();
+        }
         else System.out.println("삭제할 팀이 존재하지 않거나 팀삭제가 실패하였습니다 !");
+
+        pstmt.close();
     }
 }
