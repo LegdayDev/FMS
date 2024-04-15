@@ -144,6 +144,7 @@ public class UsersService {
                 }
                 if (select.equals("7")) {
                     System.out.println("로그아웃 되었습니다 !");
+                    Thread.sleep(2500);
                     break;
                 }
             }
