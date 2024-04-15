@@ -3,7 +3,6 @@ package repository;
 import dto.LeagueListDto;
 import dto.PlayerListDto;
 import dto.TeamListDto;
-import oracle.jdbc.proxy.annotation.Pre;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,20 +34,16 @@ public class UserRepository {
         pstmt.setInt(5, userId);
         int result = pstmt.executeUpdate();
 
-        if (result > 0) {
-            System.out.println("선수등록이 성공하셨습니다 !");
-            con.commit();
-        }
+        if (result > 0) System.out.println("선수등록이 성공하셨습니다 !");
         else System.out.println("선수등록에 실패하셨습니다 !");
 
         pstmt.close();
-        System.out.println();
     }
 
     public static void playerFindAll(Connection con) throws SQLException {
         System.out.println("\n==== 선수 목록 조회 메뉴 입니다. ====");
         List<PlayerListDto> dtoList = new ArrayList<>();
-        String sql = "SELECT PLAYER_NAME, AGE, HEIGHT, TEAM_NAME FROM PLAYER INNER JOIN TEAM ON PLAYER.TEAM_ID = TEAM.TEAM_ID";
+        String sql = "SELECT PLAYER_ID, PLAYER_NAME, AGE, HEIGHT, TEAM_NAME FROM PLAYER INNER JOIN TEAM ON PLAYER.TEAM_ID = TEAM.TEAM_ID ORDER BY PLAYER_ID";
 
         PreparedStatement pstmt = con.prepareStatement(sql);
         ResultSet rs = pstmt.executeQuery();
@@ -62,10 +57,9 @@ public class UserRepository {
         }
 
         for (int i = 0; i < dtoList.size(); i++) {
-            System.out.println((i+1) +"번 째 : " + dtoList.get(i));
+            System.out.println((i + 1) + "번 째 : " + dtoList.get(i));
         }
 
-        System.out.println(); // TODO : 코드 리팩토링 시 지우자
         rs.close();
         pstmt.close();
     }
@@ -119,7 +113,6 @@ public class UserRepository {
         pstmt.close();
     }
 
-    // 로그인한 유저가 만든 선수만 삭제할 수 있다 !!
     public static void deleteToPlayer(int userId, Connection con, Scanner sc) throws SQLException {
         System.out.println("\n==== 선수등록 해제 메뉴 입니다. ====");
         String deleteSql = "DELETE FROM PLAYER WHERE PLAYER_NAME=? AND USER_ID=?";
@@ -130,16 +123,13 @@ public class UserRepository {
         pstmt.setInt(2, userId);
 
         int result = pstmt.executeUpdate();
-        if (result > 0) {
-            System.out.println("선수 삭제가 완료되었습니다 !");
-            con.commit();
-        }
+
+        if (result > 0) System.out.println("선수 삭제가 완료되었습니다 !");
         else System.out.println("선수명이 존재하지 않거나 삭제 권한이 없습니다!");
 
         pstmt.close();
     }
 
-    // 선수 정보 업데이트 메서드
     public static void updateToPlayer(int userId, Connection con, Scanner sc) throws SQLException {
         System.out.println("\n==== 선수정보 수정 메뉴 입니다. ====");
         System.out.print("수정할 정보를 골라주세요(1. 선수명, 2. 나이, 3. 팀) >> ");
@@ -161,10 +151,8 @@ public class UserRepository {
                 pstmt.setString(3, originalName);
 
                 int result = pstmt.executeUpdate();
-                if (result > 0) {
-                    System.out.println("선수명 변경에 성공하셨습니다 !");
-                    con.commit();
-                }
+
+                if (result > 0) System.out.println("선수명 변경에 성공하셨습니다 !");
                 else System.out.println("선수가 존재하지 않거나 수정권한이 없습니다 !");
 
                 pstmt.close();
@@ -177,16 +165,14 @@ public class UserRepository {
                 sc.nextLine();
 
                 String updateSql = "UPDATE PLAYER SET AGE=?, MODIFIED_AT = TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS') WHERE USER_ID=? AND PLAYER_NAME=?";
-                 pstmt = con.prepareStatement(updateSql);
+                pstmt = con.prepareStatement(updateSql);
                 pstmt.setInt(1, age);
                 pstmt.setInt(2, userId);
                 pstmt.setString(3, playerName);
 
                 int result = pstmt.executeUpdate();
-                if (result > 0) {
-                    System.out.println(playerName + " 선수 나이 변경이 성공하였습니다 !");
-                    con.commit();
-                }
+
+                if (result > 0) System.out.println(playerName + " 선수 나이 변경이 성공하였습니다 !");
                 else System.out.println("선수가 존재하지 않거나 수정권한이 없습니다 !");
 
                 pstmt.close();
@@ -199,17 +185,15 @@ public class UserRepository {
                 sc.nextLine();
 
                 String updateSql = "UPDATE PLAYER SET TEAM_ID=?, MODIFIED_AT = TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS') WHERE PLAYER_NAME=? AND USER_ID=?";
-                 pstmt = con.prepareStatement(updateSql);
+                pstmt = con.prepareStatement(updateSql);
 
                 pstmt.setInt(1, teamId);
                 pstmt.setString(2, playerName);
                 pstmt.setInt(3, userId);
 
                 int result = pstmt.executeUpdate();
-                if (result > 0) {
-                    System.out.println(playerName + "의 팀 변경이 성공하였습니다 !");
-                    con.commit();
-                }
+
+                if (result > 0) System.out.println(playerName + "의 팀 변경이 성공하였습니다 !");
                 else System.out.println("선수가 존재하지 않거나 수정권한이 없습니다 !");
 
                 pstmt.close();

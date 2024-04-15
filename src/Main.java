@@ -1,4 +1,3 @@
-import domain.Users;
 import service.UsersService;
 
 import java.sql.SQLException;
@@ -7,7 +6,6 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         Scanner sc = new Scanner(System.in);
-        // 회원가입 테스트
         System.out.println();
         String title =
                 """
@@ -32,7 +30,7 @@ public class Main {
             String select = sc.nextLine();
 
             switch (select) {
-                case "1" -> { // 회원가입
+                case "1" -> {
                     System.out.print("UserName(ID)를 입력하세요 >> ");
                     String username = sc.nextLine();
                     System.out.print("PW를 입력하세요 >> ");
@@ -42,11 +40,7 @@ public class Main {
                     System.out.print("주소를 입력하세요 >> ");
                     String address = sc.nextLine();
 
-                    Users user = new Users(username, password, role, address);
-                    // TODO : 회원가입 성공/실패 메시지도 join() 메서드 안에서 처리하자.
-                    int result = UsersService.join(user);
-                    if (result > 0) System.out.println("회원가입에 성공하셨습니다.");
-                    else System.out.println("회원가입에 실패하셨습니다!");
+                    UsersService.join(username, password, role, address);
                 }
                 case "2" -> {
                     System.out.print("아이디를 입력하시오 >> ");
@@ -56,9 +50,9 @@ public class Main {
                     UsersService.login(username, password, sc);
                 }
                 case "3" -> {
-                    System.out.println("탈퇴할 아이디를 입력하시오 >> ");
+                    System.out.print("탈퇴할 아이디를 입력하시오 >> ");
                     String username = sc.nextLine();
-                    System.out.println("탈퇴할 비밀번호를 입력하시오 >> ");
+                    System.out.print("탈퇴할 비밀번호를 입력하시오 >> ");
                     String password = sc.nextLine();
                     UsersService.deleteUser(username, password, sc);
                 }
