@@ -1,14 +1,19 @@
 package repository;
 
+import util.TitleUtil;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import static util.TitleUtil.*;
+
 public class AdminRepository {
 
     public static void insertLeague(Connection con, Scanner sc) throws SQLException {
+        clearScreen();
         System.out.println("\n==== 리그 추가 메뉴입니다. ====");
         System.out.print("새로 추가하는 리그명을 입력해주세요 >> ");
         String leagueName = sc.nextLine();
@@ -23,6 +28,9 @@ public class AdminRepository {
             String checkColumn = rs.getString("LEAGUE_NAME");
             if (!checkColumn.isEmpty()) {
                 System.out.println("리그명이 중복되었습니다! 다른 리그명을 사용하십시오.");
+
+                System.out.print("\n메뉴로 돌아가실려면 Enter 키를 누르시오 >> ");
+                sc.nextLine();
                 return;
             }
         }
@@ -36,11 +44,14 @@ public class AdminRepository {
         if (result > 0) System.out.println("리그가 정상적으로 추가되었습니다 !");
         else System.out.println("리그등록에 실패하셨습니다 !");
 
+        System.out.print("\n메뉴로 돌아가실려면 Enter 키를 누르시오 >> ");
+        sc.nextLine();
         rs.close();
         pstmt.close();
     }
 
     public static void updateLeague(Connection con, Scanner sc) throws SQLException {
+        clearScreen();
         System.out.println("\n==== 리그명 수정 메뉴입니다. ====");
         System.out.print("변경하실 리그명을 입력해주세요 >> ");
         String originalLeague = sc.nextLine();
@@ -56,11 +67,14 @@ public class AdminRepository {
         if (result > 0) System.out.println("리그명 변경이 완료되었습니다 !");
         else System.out.println("리그명 변경에 실패하셨습니다 !");
 
+        System.out.print("\n메뉴로 돌아가실려면 Enter 키를 누르시오 >> ");
+        sc.nextLine();
         pstmt.close();
     }
 
 
     public static void deleteLeague(Connection con, Scanner sc) throws SQLException {
+        clearScreen();
         System.out.println("\n==== 리그 삭제 메뉴입니다. ====");
         System.out.print("삭제하실 리그명을 입력해주세요 >> ");
         String deleteLeagueName = sc.nextLine();
@@ -73,6 +87,9 @@ public class AdminRepository {
             String checkColumn = rs.getString("LEAGUE_NAME");
             if (checkColumn.isEmpty()) {
                 System.out.println("삭제하실 리그명이 존재하지 않습니다 !");
+
+                System.out.print("\n메뉴로 돌아가실려면 Enter 키를 누르시오 >> ");
+                sc.nextLine();
                 return;
             }
         }
@@ -85,11 +102,14 @@ public class AdminRepository {
         if (result > 0) System.out.println("리그삭제가 성공하였습니다 !");
         else System.out.println("리그삭제가 실패하였습니다 !");
 
+        System.out.print("\n메뉴로 돌아가실려면 Enter 키를 누르시오 >> ");
+        sc.nextLine();
         rs.close();
         pstmt.close();
     }
 
     public static void insertTeam(Connection con, Scanner sc) throws SQLException {
+        clearScreen();
         System.out.println("\n==== 팀 추가 메뉴입니다. ====");
         System.out.print("추가할 팀 명을 입력하세요 >> ");
         String teamName = sc.nextLine();
@@ -102,6 +122,9 @@ public class AdminRepository {
             String checkColumn = rs.getString("TEAM_NAME");
             if (!checkColumn.isEmpty()) {
                 System.out.println("팀명이 중복됩니다 !!");
+
+                System.out.print("\n메뉴로 돌아가실려면 Enter 키를 누르시오 >> ");
+                sc.nextLine();
                 return;
             }
         }
@@ -127,11 +150,14 @@ public class AdminRepository {
         if (result > 0) System.out.println("팀 추가에 성공하셨습니다 !");
         else System.out.println("팀 추가가 실패하셨습니다 !");
 
+        System.out.print("\n메뉴로 돌아가실려면 Enter 키를 누르시오 >> ");
+        sc.nextLine();
         rs.close();
         pstmt.close();
     }
 
     public static void updateTeam(Connection con, Scanner sc) throws SQLException {
+        clearScreen();
         System.out.println("\n==== 팀 수정 메뉴입니다. ====");
         System.out.print("수정하실 정보를 선택해주세요(1.팀명 2.구장명) >> ");
         int select = sc.nextInt();
@@ -153,6 +179,9 @@ public class AdminRepository {
                     String checkColumn = rs.getString("TEAM_NAME");
                     if (!checkColumn.isEmpty()) {
                         System.out.println("이미 존재하는 팀명입니다 !");
+
+                        System.out.print("\n메뉴로 돌아가실려면 Enter 키를 누르시오 >> ");
+                        sc.nextLine();
                         return;
                     }
                 }
@@ -166,6 +195,8 @@ public class AdminRepository {
                 if (result > 0) System.out.println("팀명 변경을 성공하셨습니다 !");
                 else System.out.println("팀명 변경을 실패하셨습니다 !");
 
+                System.out.print("\n메뉴로 돌아가실려면 Enter 키를 누르시오 >> ");
+                sc.nextLine();
                 rs.close();
                 pstmt.close();
             }
@@ -185,12 +216,15 @@ public class AdminRepository {
                 if (result > 0) System.out.println("구장명 변경을 성공하셨습니다 !");
                 else System.out.println("수정할 팀이 존재하지 않거나 구장명 변경에 실패하셨습니다 !");
 
+                System.out.print("\n메뉴로 돌아가실려면 Enter 키를 누르시오 >> ");
+                sc.nextLine();
                 pstmt.close();
             }
         }
     }
 
     public static void deleteTeam(Connection con, Scanner sc) throws SQLException {
+        clearScreen();
         System.out.println("\n==== 팀 삭제 메뉴입니다. ====");
         System.out.print("삭제할 팀명을 입력해주세요 >> ");
         String teamName = sc.nextLine();
@@ -203,6 +237,8 @@ public class AdminRepository {
         if (result > 0) System.out.println("팀 삭제가 성공하였습니다 !");
         else System.out.println("삭제할 팀이 존재하지 않거나 팀삭제가 실패하였습니다 !");
 
+        System.out.print("\n메뉴로 돌아가실려면 Enter 키를 누르시오 >> ");
+        sc.nextLine();
         pstmt.close();
     }
 }
