@@ -33,7 +33,7 @@ public class Main {
                     String username = sc.nextLine();
                     System.out.print("PW를 입력하세요 >> ");
                     String password = sc.nextLine();
-                    System.out.print("ROLW 입력하세요(Admin or Player) >> ");
+                    System.out.print("ROLE 입력하세요(Admin or Player) >> ");
                     String role = sc.nextLine();
                     System.out.print("주소를 입력하세요 >> ");
                     String address = sc.nextLine();
