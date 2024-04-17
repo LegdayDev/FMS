@@ -34,7 +34,7 @@ public class UsersService {
             String findUsername = rs.getString("USER_NAME");
             if (!findUsername.isEmpty()) {
                 System.out.println("이미 회원가입이 된 유저입니다.");
-                Thread.sleep(2500);
+                Thread.sleep(1500);
                 return;
             }
         }
@@ -52,7 +52,7 @@ public class UsersService {
 
         if (result > 0) System.out.println("회원가입에 성공하셨습니다.");
         else System.out.println("회원가입에 실패하셨습니다!");
-        Thread.sleep(2500);
+        Thread.sleep(1500);
         DBConnectionUtil.close(con, pstmt, rs);
     }
 
@@ -78,16 +78,16 @@ public class UsersService {
             boolean checkPW = BCrypt.checkpw(password, findPassword); // 같지않으면 false
             if (findUsername.isEmpty() || !checkPW) {
                 System.out.println("아이디 혹은 비밀번호가 맞지 않습니다 !");
-                Thread.sleep(2500);
+                Thread.sleep(1500);
                 return;
             }
         } else {
             System.out.println("가입되어 있지 않은 회원입니다 !");
-            Thread.sleep(2500);
+            Thread.sleep(1500);
             return;
         }
         System.out.println("로그인에 성공하셨습니다!");
-        Thread.sleep(2500);
+        Thread.sleep(1500);
         String findRole = rs.getString("ROLE");
         int userId = rs.getInt("USER_ID");
 
@@ -119,7 +119,7 @@ public class UsersService {
                 }
                 if (select.equals("9")) {
                     System.out.println("로그아웃 되었습니다 !");
-                    Thread.sleep(2500);
+                    Thread.sleep(1500);
                     break;
                 }
             }
@@ -147,7 +147,7 @@ public class UsersService {
                 }
                 if (select.equals("7")) {
                     System.out.println("로그아웃 되었습니다 !");
-                    Thread.sleep(2500);
+                    Thread.sleep(1500);
                     break;
                 }
             }
@@ -177,12 +177,12 @@ public class UsersService {
             boolean checkPW = BCrypt.checkpw(password, findPassword); // 같지않으면 false
             if (findUsername.isEmpty() || !checkPW) {
                 System.out.println("아이디 혹은 비밀번호가 맞지 않습니다 !");
-                Thread.sleep(2500);
+                Thread.sleep(1500);
                 return;
             }
         } else {
             System.out.println("가입되어 있지 않은 회원입니다 !");
-            Thread.sleep(2500);
+            Thread.sleep(1500);
             return;
         }
 
@@ -193,7 +193,7 @@ public class UsersService {
 
         if (result > 0) System.out.println("회원탈퇴를 성공하였습니다 !");
         else System.out.println("회원탈퇴를 실패하셨습니다 !");
-        Thread.sleep(2500);
+        Thread.sleep(1500);
         DBConnectionUtil.close(con, pstmt, rs);
     }
 }
