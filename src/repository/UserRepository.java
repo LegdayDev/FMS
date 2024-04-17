@@ -33,7 +33,7 @@ public class UserRepository {
         sc.nextLine();
 
         // 팀조회
-        String teamListSql = "SELECT TEAM_ID, TEAM_NAME FROM TEAM";
+        String teamListSql = "SELECT TEAM_ID, TEAM_NAME FROM TEAM ORDER BY TEAM_ID";
         PreparedStatement searchStmt = con.prepareStatement(teamListSql);
         ResultSet rs = searchStmt.executeQuery();
 
