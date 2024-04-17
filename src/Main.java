@@ -10,12 +10,12 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
-        int count =0;
+        int count = 0;
         System.out.println();
 
         System.out.println(title);
         while (true) {
-            if(count!=0) clearScreen();
+            if (count != 0) clearScreen();
             System.out.println("==== 메뉴를 선택해주세요 ====");
             System.out.println("1. 회원가입");
             System.out.println("2. 로그인");
@@ -38,7 +38,7 @@ public class Main {
                     System.out.print("주소를 입력하세요 >> ");
                     String address = sc.nextLine();
 
-                    UsersService.join(username, password, role, address, sc);
+                    UsersService.join(username, password, role, address);
                 }
                 case "2" -> {
                     clearScreen();
@@ -56,10 +56,14 @@ public class Main {
                     String username = sc.nextLine();
                     System.out.print("탈퇴할 비밀번호를 입력하시오 >> ");
                     String password = sc.nextLine();
-                    UsersService.deleteUser(username, password, sc);
+                    UsersService.deleteUser(username, password);
                 }
             }
             if (select.equals("4")) break;
+            else {
+                System.out.println("잘못 입력하셨습니다!");
+                Thread.sleep(1000);
+            }
             count++;
         }
         sc.close();

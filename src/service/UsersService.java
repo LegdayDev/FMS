@@ -4,7 +4,6 @@ import org.mindrot.jbcrypt.BCrypt;
 import repository.AdminRepository;
 import repository.UserRepository;
 import util.DBConnectionUtil;
-import util.TitleUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,10 +16,10 @@ import static util.TitleUtil.*;
 
 public class UsersService {
 
-    public static void join(String username, String password, String role, String address, Scanner sc) throws Exception {
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+    public static void join(String username, String password, String role, String address) throws Exception {
+        Connection con;
+        PreparedStatement pstmt;
+        ResultSet rs;
 
         Class.forName("oracle.jdbc.driver.OracleDriver");
         con = DBConnectionUtil.getConnection();
@@ -59,9 +58,9 @@ public class UsersService {
 
 
     public static void login(String username, String password, Scanner sc) throws Exception {
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+        Connection con;
+        PreparedStatement pstmt;
+        ResultSet rs;
 
         Class.forName("oracle.jdbc.driver.OracleDriver");
         con = DBConnectionUtil.getConnection();
@@ -157,10 +156,10 @@ public class UsersService {
         DBConnectionUtil.close(con, pstmt, rs);
     }
 
-    public static void deleteUser(String username, String password, Scanner sc) throws ClassNotFoundException, SQLException, InterruptedException {
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+    public static void deleteUser(String username, String password) throws ClassNotFoundException, SQLException, InterruptedException {
+        Connection con;
+        PreparedStatement pstmt;
+        ResultSet rs;
 
         Class.forName("oracle.jdbc.driver.OracleDriver");
         con = DBConnectionUtil.getConnection();

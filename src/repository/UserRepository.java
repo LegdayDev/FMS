@@ -3,7 +3,7 @@ package repository;
 import dto.LeagueListDto;
 import dto.PlayerListDto;
 import dto.TeamListDto;
-import util.TitleUtil;
+import dto.TeamSearchDto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +20,7 @@ public class UserRepository {
     public static void playerJoin(int userId, Connection con, Scanner sc) throws SQLException {
         String insertSql = "INSERT INTO PLAYER VALUES(PLAYER_SEQ.nextval, ?, ?, ?, ?, ?, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'), TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'))";
         PreparedStatement pstmt = con.prepareStatement(insertSql);
-
+        List<TeamSearchDto> dtoList = new ArrayList<>();
         clearScreen();
         System.out.println("==== 선수등록 메뉴 입니다. ====");
         System.out.print("선수명을 입력하시오 >> ");
@@ -31,7 +31,23 @@ public class UserRepository {
         System.out.print("키를 입력하시오 >> ");
         pstmt.setInt(3, sc.nextInt());
         sc.nextLine();
-        System.out.print("팀을 고르시오(1. ManUtd, 2.ManCity, 3.Bayern, 4.Dortmund, 5.Braca, 6.Real) >> ");
+
+        // 팀조회
+        String teamListSql = "SELECT TEAM_ID, TEAM_NAME FROM TEAM";
+        PreparedStatement searchStmt = con.prepareStatement(teamListSql);
+        ResultSet rs = searchStmt.executeQuery();
+
+        while(rs.next()) {
+            int teamId = rs.getInt("TEAM_ID");
+            String teamName = rs.getString("TEAM_NAME");
+            dtoList.add(new TeamSearchDto(teamId,teamName));
+        }
+
+        System.out.println("\n==== 팀 목록에서 번호를 골라 주세요 ====");
+        for (TeamSearchDto dto : dtoList) {
+            System.out.println(dto);
+        }
+        System.out.print("팀번호를 입력해주세요 >> ");
         pstmt.setInt(4, sc.nextInt());
         sc.nextLine();
         pstmt.setInt(5, userId);
@@ -42,6 +58,7 @@ public class UserRepository {
 
         System.out.print("\n메뉴로 돌아가실려면 Enter 키를 누르시오 >> ");
         sc.nextLine();
+        searchStmt.close();
         pstmt.close();
     }
 
