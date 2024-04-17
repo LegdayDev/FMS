@@ -1,7 +1,6 @@
 package repository;
 
 import dto.LeagueSearchDto;
-import util.TitleUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
