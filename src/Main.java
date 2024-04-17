@@ -6,8 +6,6 @@ import static util.TitleUtil.clearScreen;
 import static util.TitleUtil.title;
 
 public class Main {
-
-
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
         int count = 0;
@@ -60,10 +58,6 @@ public class Main {
                 }
             }
             if (select.equals("4")) break;
-            else {
-                System.out.println("잘못 입력하셨습니다!");
-                Thread.sleep(1000);
-            }
             count++;
         }
         sc.close();

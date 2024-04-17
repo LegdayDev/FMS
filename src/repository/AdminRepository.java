@@ -146,11 +146,11 @@ public class AdminRepository {
         String stadiumName = sc.nextLine();
         System.out.print("연고지를 입력하세요 >> ");
         String loc = sc.nextLine();
-        System.out.println("==== 소속 리그는 아래와 같습니다. ====");
+        System.out.println("==== 리그 목록에서 번호를 골라 주세요====");
         for (LeagueSearchDto dto : leagueList) {
             System.out.println(dto);
         }
-        System.out.print("소속 리그 번호를 고르시오>> ");
+        System.out.print("번호를 입력해주세요 >> ");
         int league_id = sc.nextInt();
         sc.nextLine();
 
