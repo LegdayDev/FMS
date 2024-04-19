@@ -16,5 +16,5 @@
 3. `java -jar FMS.jar` 명령어 입력하여 실행
    > `DB` 는 `Oracle Database` 이다.
 
-### 프로젝트 설명
+### 프로젝트 명세서
 [Github Wiki 이동](https://github.com/LegdayDev/FMS/wiki)
